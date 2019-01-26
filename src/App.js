@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Table} from './_components';
+import {tableSchema} from './_constant';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1 style={{color:'#FFF',textShadow:'#00000047 1px 1px 5px'}}>Editable Table</h1>
+        <Table schema={tableSchema}/>
       </div>
     );
   }
