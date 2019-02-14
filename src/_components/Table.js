@@ -1,22 +1,22 @@
 import React,{Component} from 'react';
 import TableInputLine from './TableInputLine';
 import TableHeader from './TableHeader';
+import TableRow from './TableRow';
 
 class Table extends Component{
 
     state= {
         rows: [],
-        addNew:{}
     }
 
 // onChange = (event) =>{
 //     const {name,value,type,checked} = event.target;
     
 
-    onClickAdd = () =>{
-        const {rows,addNew} = this.state;
-        rows.push(addNew);
-        this.setState({rows,addNew:{}});
+    onAdd = (row) =>{
+        const {rows} = this.state;
+        rows.push(row);
+        this.setState({rows});
     }
 
     render() {
@@ -30,14 +30,12 @@ class Table extends Component{
                     <th>Action</th>
                 </tr>
                 <tr>
-                    <TableInputLine schema={schema}/>
+                    <TableInputLine schema={schema} onAdd={this.onAdd}/>
                 </tr>
             </thead>
             <tbody>
                 {this.state.rows.map(row=>{
-                    return <tr>
-                        {Object.keys(row).map(rc=><td>{row[rc]}</td>)}
-                    </tr>
+                    return <TableRow data={row} schema={schema} />
                 })}
             </tbody>
         </table>

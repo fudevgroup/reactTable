@@ -9,13 +9,18 @@ export default class TableInputLine extends Component {
 
 
     onChange = ({target:{name,value,type,checked}}) =>{
-        debugger
         if (type==="checkbox"){
             this.setState({[name]:checked})
         }
         else {
             this.setState({[name]: value})
         } 
+    }
+
+    onClickAdd = () =>{
+        const {props:{onAdd,schema},state} = this;
+        if (Object.keys(schema).every(_key=>schema[_key].required ? (state[_key] || '') !== '' : true))
+            onAdd(state);
     }
 
     render() {
@@ -31,7 +36,7 @@ export default class TableInputLine extends Component {
                     value={this.state[_key]||''}
                     />
                 })}
-                {/* <td><button onClick={this.onClickAdd}>Add</button></td> */}
+                <td><button onClick={this.onClickAdd}>Add</button></td>
             </>
         )
     }
