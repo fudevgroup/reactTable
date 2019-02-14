@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import TableInputLine from './TableInputLine';
+import TableHeader from './TableHeader';
 
 class Table extends Component{
 
@@ -9,16 +11,7 @@ class Table extends Component{
 
 // onChange = (event) =>{
 //     const {name,value,type,checked} = event.target;
-    onChange = ({target:{name,value,type,checked}}) =>{
-        const {addNew} = this.state;
-        if (type==="checkbox"){
-            addNew[name]= checked;
-            this.setState({addNew})
-        }
-        else {
-            this.setState({addNew:{...addNew,[name]: value}})
-        } 
-    }
+    
 
     onClickAdd = () =>{
         const {rows,addNew} = this.state;
@@ -37,16 +30,7 @@ class Table extends Component{
                     <th>Action</th>
                 </tr>
                 <tr>
-                    {Object.keys(schema).map(_key=>{
-                        return <TableInput
-                        key={_key}
-                        name={_key}
-                        {...schema[_key]}
-                        onChange={this.onChange}
-                        value={this.state.addNew[_key]||''}
-                        />
-                    })}
-                    <td><button onClick={this.onClickAdd}>Add</button></td>
+                    <TableInputLine schema={schema}/>
                 </tr>
             </thead>
             <tbody>
@@ -58,24 +42,6 @@ class Table extends Component{
             </tbody>
         </table>
     }
-}
-
-
-const TableHeader = (props) => {
-    const {displayName} = props;
-    return <th>{displayName}</th>
-}
-
-const TableInput = ({displayName,type,required,onChange,value,name}) => {
-    switch(type){
-        case String:
-            return <td><input value={value} name={name} type="text" placeholder={`${displayName}${required?'*':null}`} onChange={onChange}/></td>
-        case Number:
-            return <td><input value={value} name={name} type="number" placeholder={`${displayName}${required?'*':null}`} onChange={onChange}/></td>
-        case Boolean:
-            return <td><input checked={value} name={name} type="checkbox" onChange={onChange}/></td>
-    }
-    
 }
 
 
