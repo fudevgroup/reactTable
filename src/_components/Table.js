@@ -1,29 +1,22 @@
 import React,{Component} from 'react';
+import TableInputLine from './TableInputLine';
+import TableHeader from './TableHeader';
+import TableRow from './TableRow';
 
 class Table extends Component{
 
     state= {
         rows: [],
-        addNew:{}
     }
 
 // onChange = (event) =>{
 //     const {name,value,type,checked} = event.target;
-    onChange = ({target:{name,value,type,checked}}) =>{
-        const {addNew} = this.state;
-        if (type==="checkbox"){
-            addNew[name]= checked;
-            this.setState({addNew})
-        }
-        else {
-            this.setState({addNew:{...addNew,[name]: value}})
-        } 
-    }
+    
 
-    onClickAdd = () =>{
-        const {rows,addNew} = this.state;
-        rows.push(addNew);
-        this.setState({rows,addNew:{}});
+    onAdd = (row) =>{
+        const {rows} = this.state;
+        rows.push(row);
+        this.setState({rows});
     }
 
     render() {
@@ -37,45 +30,16 @@ class Table extends Component{
                     <th>Action</th>
                 </tr>
                 <tr>
-                    {Object.keys(schema).map(_key=>{
-                        return <TableInput
-                        key={_key}
-                        name={_key}
-                        {...schema[_key]}
-                        onChange={this.onChange}
-                        value={this.state.addNew[_key]||''}
-                        />
-                    })}
-                    <td><button onClick={this.onClickAdd}>Add</button></td>
+                    <TableInputLine schema={schema} onAdd={this.onAdd}/>
                 </tr>
             </thead>
             <tbody>
                 {this.state.rows.map(row=>{
-                    return <tr>
-                        {Object.keys(row).map(rc=><td>{row[rc]}</td>)}
-                    </tr>
+                    return <TableRow data={row} schema={schema} />
                 })}
             </tbody>
         </table>
     }
-}
-
-
-const TableHeader = (props) => {
-    const {displayName} = props;
-    return <th>{displayName}</th>
-}
-
-const TableInput = ({displayName,type,required,onChange,value,name}) => {
-    switch(type){
-        case String:
-            return <td><input value={value} name={name} type="text" placeholder={`${displayName}${required?'*':null}`} onChange={onChange}/></td>
-        case Number:
-            return <td><input value={value} name={name} type="number" placeholder={`${displayName}${required?'*':null}`} onChange={onChange}/></td>
-        case Boolean:
-            return <td><input checked={value} name={name} type="checkbox" onChange={onChange}/></td>
-    }
-    
 }
 
 
