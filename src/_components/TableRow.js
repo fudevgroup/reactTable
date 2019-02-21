@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 
 export default class TableRow extends Component {
+    constructor(props){
+        super(props);
+        this.state = props.data;
+    }
     render () {
-        const {data,schema} = this.props;
+        const {schema} = this.props;
         return (
             <tr>
                 {Object.keys(schema).map(_key=>{
-                    debugger
-                    return <TableCell type={schema[_key].type} value={data[_key]} />
+                    return <TableCell type={schema[_key].type} value={this.state[_key]} />
                 })}
             </tr>
         )
