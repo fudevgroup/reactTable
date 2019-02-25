@@ -9,12 +9,20 @@ class Table extends Component{
         rows: [],
     }
 
-// onChange = (event) =>{
-//     const {name,value,type,checked} = event.target;
-    
+    onDeleteRow = (id) =>{
+        let {rows} = this.state;
+        rows = rows.filter(row=>row.id !== id);
+        this.setState({rows});
+    }
+    onSaveRow = (row) =>{
+        const {rows} = this.state;
+        rows[row.id] = row;
+        this.setState({rows});
+    }
 
     onAdd = (row) =>{
         const {rows} = this.state;
+        row.id = uuidv4();
         rows.push(row);
         this.setState({rows});
     }
@@ -35,13 +43,26 @@ class Table extends Component{
             </thead>
             <tbody>
                 {this.state.rows.map(row=>{
-                    return <TableRow data={row} schema={schema} />
+                    return <TableRow
+                    data={row}
+                    schema={schema}
+                    key={row.id}
+                    onDelete={this.onDeleteRow}
+                    onSave={this.onSaveRow}
+                    />
                 })}
             </tbody>
         </table>
     }
 }
 
+
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 
 export {Table};

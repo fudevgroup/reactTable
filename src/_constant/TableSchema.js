@@ -1,13 +1,13 @@
 export const tableSchema = {
+      firstName: {
+        type: String,
+        required: true,
+        displayName: 'First Name'
+    },
     userName: {
       type: String,
       required: true,
       displayName: 'username'
-    },
-    firstName: {
-        type: String,
-        required: true,
-        displayName: 'First Name'
     },
     lastName: {
         type: String,
