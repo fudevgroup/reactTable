@@ -1,7 +1,6 @@
 import React from 'react';
 
-const TableHeader = (props) => {
-    const {displayName} = props;
+const TableHeader = ({displayName}) => {
     return <th>{displayName}</th>
 }
 
